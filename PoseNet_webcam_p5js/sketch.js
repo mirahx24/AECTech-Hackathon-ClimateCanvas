@@ -76,13 +76,12 @@ function drawKeypoints() {
     // 
     // handdown = true;
     // handsup = 0;
-    // if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) {
-    //     // console.log('raised hand');
-    //     handsup++;
-    //     setTimeout(console.log('handsup'),10000);
-    // }
-
-    if raisedHand() ? console.log('handsup');
+    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) {
+        // console.log('raised hand');
+        // handsup++;
+        console.log('handsup');
+    }
+    
 /*
     if (time % 20 == 0){
 
@@ -111,7 +110,10 @@ function drawKeypoints() {
 }
 
 function raisedHand(){
-    return ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) ? true : false;
+    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) {
+        return true;
+    }
+    else return false;
 }
 
 // A function to draw the skeletons
