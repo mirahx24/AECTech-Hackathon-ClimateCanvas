@@ -16,6 +16,7 @@ let hands;
 
 let timer = 5000;
 let nextChange = timer;
+let questionIndex = 1;
 
 function setup() {
   createCanvas(640, 480);
@@ -44,25 +45,26 @@ function draw() {
   // We can call both functions to draw all keypoints and the skeletons
   
   //-------
-  drawKeypoints(); // this works w multiple ppl
+  // drawKeypoints(); // this works w multiple ppl
   // drawSkeleton();
   
-//   startTimer(20, drawKeypoints);
   // Count amount of hands-up
   // hands = counthandsup();
   // console.log('# of hands ',hands);
 
   // console.log(counthandsup());
   
-  // // scheduling events with millis()
-  // if (millis() > nextChange){
-  //   hands = drawKeypoints();
-  //   nextChange = millis() + timer;
-  //   console.log('# of hands ',hands);
-  // }
-
-  // text(`${hands} hands are up`, 20, height/4);
-  // text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
+  // scheduling events with millis()
+  if (millis() > nextChange){
+    // hands = drawKeypoints();
+    hands = counthandsup();
+    questionIndex++;
+    nextChange = millis() + timer;
+    console.log('# of hands ',hands);
+  }
+  text(`question #${questionIndex}`,20,height/4);
+  text(`${hands} hands are up`, 20, height/3);
+  text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
   
 }
 
