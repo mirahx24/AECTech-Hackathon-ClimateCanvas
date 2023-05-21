@@ -7,7 +7,7 @@ var confi = 0.2;
 let hands;
 // let totalPepole
 
-let timer = 5000;
+let timer = 2500;
 let nextChange = timer;// Timer variable
 let questionIndex = 1;
 
@@ -33,6 +33,7 @@ function setup() {
   // imageCanvas.createCanvas(640, 480);
   // imageCanvas.position(640, 0);
 
+  image(currentImage, 0, 0, width, height);
 
   // Create a new poseNet method with a single detection
   poseNet = ml5.poseNet(video, modelReady);
@@ -45,7 +46,7 @@ function setup() {
   video.hide();
 
   // Start the timer
-  timer = setTimeout(redirectToGridPage, 60000); // 3 minutes = 180000 milliseconds
+  // timer = setTimeout(redirectToGridPage, 60000); // 3 minutes = 180000 milliseconds
 }
 
 function redirectToGridPage() {
@@ -58,12 +59,11 @@ function modelReady() {
 }
 
 function draw() {
-  image(video, 0, 0, width, height);
+  // image(video, 0, 0, width, height);
   textSize(24);
   
 
   // We can call both functions to draw all keypoints and the skeletons
-  image(currentImage, 0, 0, width, height);
 
   
   // scheduling events with millis()
