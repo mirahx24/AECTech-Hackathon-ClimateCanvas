@@ -45,7 +45,7 @@ function setup() {
   video.hide();
 
   // Start the timer
-  timer = setTimeout(redirectToGridPage, 180000); // 3 minutes = 180000 milliseconds
+  timer = setTimeout(redirectToGridPage, 60000); // 3 minutes = 180000 milliseconds
 }
 
 function redirectToGridPage() {
