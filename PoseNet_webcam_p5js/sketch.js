@@ -11,6 +11,11 @@ PoseNet example using p5.js
 let video;
 let poseNet;
 let poses = [];
+var confi = 0.2;
+let hands;
+
+let timer = 5000;
+let nextChange = timer;
 
 function setup() {
   createCanvas(640, 480);
@@ -34,28 +39,36 @@ function modelReady() {
 
 function draw() {
   image(video, 0, 0, width, height);
+  textSize(24);
 
   // We can call both functions to draw all keypoints and the skeletons
   
-  drawKeypoints();
-  drawSkeleton();
+  //-------
+  drawKeypoints(); // this works w multiple ppl
+  // drawSkeleton();
   
 //   startTimer(20, drawKeypoints);
   // Count amount of hands-up
-//   counthandsup();
-}
+  // hands = counthandsup();
+  // console.log('# of hands ',hands);
 
-// A function to count amount of hands-up
-function counthandsup(){
-    handdown = true;
-    const pose = poses[0].pose;
-    if (((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2)) && (pose.leftWrist.confidence > 0.2)) {
-        console.log('raised hand');
-    }
+  // console.log(counthandsup());
+  
+  // // scheduling events with millis()
+  // if (millis() > nextChange){
+  //   hands = drawKeypoints();
+  //   nextChange = millis() + timer;
+  //   console.log('# of hands ',hands);
+  // }
+
+  // text(`${hands} hands are up`, 20, height/4);
+  // text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
+  
 }
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints() {
+  handsup = 0;
   // Loop through all the poses detected
   for (let i = 0; i < poses.length; i += 1) {
     // For each pose detected, loop through all the keypoints
@@ -71,49 +84,21 @@ function drawKeypoints() {
       }
     }
     
-    // console.log("elbow ",pose.leftElbow.y," confidence ", pose.leftElbow.confidence);
-    // console.log("wrist ",pose.leftWrist.y);
-    // 
-    // handdown = true;
-    // handsup = 0;
-    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) {
+    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > confi) && (pose.leftWrist.confidence > confi)) {
         // console.log('raised hand');
-        // handsup++;
-        console.log('handsup');
+        handsup++;
+        // console.log('handsup');
     }
-    
-/*
-    if (time % 20 == 0){
 
-        if (((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2)) && (pose.leftWrist.confidence > 0.2)) {
-            // console.log('raised hand');
-            handsup++;
-            console.log(handsup);
-            // handdown = false;
-        }
-    // if (((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2)) && (pose.leftWrist.confidence > 0.2) &&(handdown = true)) {
-    //     // console.log('raised hand');
-    //     handsup++;
-    //     console.log(handsup);
-    //     handdown = false;
-    // }
-    // else {
-    //     handdown = true;
-    //     console.log('handdown');
-    // }
+    if ((pose.rightElbow.y > pose.rightWrist.y) && (pose.rightElbow.confidence > confi) && (pose.rightWrist.confidence > confi)) {
+      // console.log('raised hand');
+      handsup++;
+      // console.log('handsup');
     }
-  */  
-    // console.log("left eye", pose.leftEye.y)
-    // console.log("left shoulder", pose.leftShoulder.y)
-    //if pose.left
+  console.log('number of people ',poses.length);
+  console.log(handsup);
+  return handsup;
   }
-}
-
-function raisedHand(){
-    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > 0.2) && (pose.leftWrist.confidence > 0.2)) {
-        return true;
-    }
-    else return false;
 }
 
 // A function to draw the skeletons
@@ -131,22 +116,22 @@ function drawSkeleton() {
   }
 }
 
-// function startTimer(duration, display) {
-//     var timer = duration, minutes, seconds;
-    
-//     var intervalId = setInterval(function() {
-//       minutes = parseInt(timer / 60, 10);
-//       seconds = parseInt(timer % 60, 10);
-      
-//       minutes = minutes < 10 ? "0" + minutes : minutes;
-//       seconds = seconds < 10 ? "0" + seconds : seconds;
-      
-//       display.textContent = minutes + ":" + seconds;
-      
-//     //   if (--timer < 0) {
-//     //     clearInterval(intervalId);
-//     //     // You can perform any action here when the timer reaches zero
-//     //     alert("Timer completed!");
-//     //   }
-//     }, 1000);
-//   }
+// A function to count amount of hands-up
+function counthandsup(){
+  handsup = 0;
+  // Loop through all the poses detected
+  for (let i = 0; i < poses.length; i += 1) {
+    const pose = poses[i].pose;
+    if ((pose.leftElbow.y > pose.leftWrist.y) && (pose.leftElbow.confidence > confi) && (pose.leftWrist.confidence > confi)) {
+        // console.log('raised hand');
+        handsup++;
+        // console.log('handsup');
+    }
+    if ((pose.rightElbow.y > pose.rightWrist.y) && (pose.rightElbow.confidence > confi) && (pose.rightWrist.confidence > confi)) {
+      // console.log('raised hand');
+      handsup++;
+      // console.log('handsup');
+  }
+  return handsup;
+}
+}
