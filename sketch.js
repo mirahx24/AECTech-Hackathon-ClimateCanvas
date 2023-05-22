@@ -3,11 +3,12 @@ let video; // Webcam video capture
 let numHands = 0; // Number of hands raised
 let poseNet;
 let poses = [];
-var confi = 0.2;
-let hands;
+var confi = 0.14;
+let hands = 0;
 // let totalPepole
 
-let timer = 2500;
+let timer = 2000;
+let pageTimer;
 let nextChange = timer;// Timer variable
 let questionIndex = 1;
 
@@ -15,13 +16,32 @@ let currentImage;
 let Image1;
 let Image2;
 let Image3;
+
+// // to set to external webcam
+// var deviceList = [];
+
 function preload() {
   currentImage = loadImage('img/0.jpg');
   Image1 = loadImage('img/1.jpg');
   Image2 = loadImage('img/3.jpg');
   Image3 = loadImage('img/6.jpg');
+  
+  // //check for external webcam
+  // navigator.mediaDevices.enumerateDevices().then(getDevices);
 }
 function setup() {
+  // // getting video feed from external webcam
+  // var constraints = {
+  //   video:
+  //   {
+  //   }
+  // };
+  // video = createCapture(constraints);
+  // //console.log(deviceList);
+  // for (let x = 0; x < deviceList.length; x++) {
+  //   console.log(deviceList[x]);
+  // }
+
   // Create a canvas that fills the entire window
   createCanvas(windowWidth, windowHeight);
   // videoCanvas.position(0,0);
@@ -46,7 +66,7 @@ function setup() {
   video.hide();
 
   // Start the timer
-  // timer = setTimeout(redirectToGridPage, 60000); // 3 minutes = 180000 milliseconds
+  pageTimer = setTimeout(redirectToGridPage, 30000); // 3 minutes = 180000 milliseconds
 }
 
 function redirectToGridPage() {
@@ -55,7 +75,7 @@ function redirectToGridPage() {
 }
 
 function modelReady() {
-  select("#status").html("Model Loaded");
+  // select("#status").html("Model Loaded");
 }
 
 function draw() {
@@ -87,10 +107,10 @@ function draw() {
 
     // referencing questions
   }
-  fill(255, 255, 255);
-  text(`question #${questionIndex}`,20,height/4);
-  text(`${hands} hands are up`, 20, height/3);
-  text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
+  // fill(255, 255, 255);
+  // text(`question #${questionIndex}`,20,height/4);
+  // text(`${hands} hands are up`, 20, height/3);
+  // text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
   
 }
 
@@ -166,5 +186,17 @@ function counthandsup(){
       // console.log('handsup');
     }
   return handsup;
+  }
+}
+
+function getDevices(devices) {
+  // console.log(devices); // To see all devices
+  arrayCopy(devices, deviceList);
+  for (let i = 0; i < devices.length; ++i) {
+    let deviceInfo = devices[i];
+    if (deviceInfo.kind == 'videoinput') {
+      console.log("Device name :", devices[i].label);
+      console.log("DeviceID :", devices[i].deviceId);
+    }
   }
 }
