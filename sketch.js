@@ -66,7 +66,7 @@ function setup() {
   video.hide();
 
   // Start the timer
-  pageTimer = setTimeout(redirectToGridPage, 30000); // 3 minutes = 180000 milliseconds
+  pageTimer = setTimeout(redirectToGridPage, 20000); // 3 minutes = 180000 milliseconds
 }
 
 function redirectToGridPage() {
@@ -75,7 +75,7 @@ function redirectToGridPage() {
 }
 
 function modelReady() {
-  // select("#status").html("Model Loaded");
+  select("#status").html("Model Loaded");
 }
 
 function draw() {
@@ -84,8 +84,6 @@ function draw() {
   
 
   // We can call both functions to draw all keypoints and the skeletons
-
-  
   // scheduling events with millis()
   if (millis() > nextChange){
     // hands = drawKeypoints();
@@ -107,9 +105,9 @@ function draw() {
 
     // referencing questions
   }
-  // fill(255, 255, 255);
   // text(`question #${questionIndex}`,20,height/4);
   // text(`${hands} hands are up`, 20, height/3);
+  select("#status").html(`${hands} hands are up`);
   // text(`${round(millis()/1000)} seconds have gone by!`, 20, height/2);
   
 }
